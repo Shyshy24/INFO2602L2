@@ -17,6 +17,8 @@ class User(db.Model):
     self.username = username
     self.email = email
     self.set_password(password)
+    
+  
 
   def set_password(self, password):
     """Create hashed password."""
