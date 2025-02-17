@@ -28,25 +28,27 @@ class User(db.Model):
   def __repr__(self):
     return f'<User {self.id} {self.username} - {self.email}>'
 
-  def add_todo_category(self,todo_id, category):
-    print(todo_id, category)
+def add_todo_category(self,todo_id, category):
+  print(todo_id, category)
   try:
-       todo = todo.query.filter_by(id=todo_id, user_id = self.id).first()
-       if todo:
+    todo = todo.query.filter_by(id=todo_id, user_id = self.id).first()
+    if todo:
       category_rec = Category.query.filter_by(user_id=self.id, text= category).first()
-       if not category_rec:
+    if not category_rec:
         category_rec = Category(self.id, category)
         db.session.add(category_rec)
         db.session.commit()
 
     category_rec.todos.append(todo)
-     db.session.add(category_rec)
-      db.session.commit()
-      return True
-    except Exception as e:
-      print("Error adding category", e)
+    db.session.add(category_rec)
+    db.session.commit()
 
-    return True  
+    return True
+  except Exception as e:
+    print("Error adding category", e)
+    db.session.rollback()
+    
+  return False 
       
     
      
